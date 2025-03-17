@@ -72,12 +72,12 @@ def delete_book(id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Book deleted successfully"}
 
-# Semantic Search for recommendations based on Title
-@app.get("/books/search/{title}")
-def search_book(title: str, db: Session = Depends(get_db)):
+# Semantic Search for recommendations based on a user query
+@app.get("/books/search/{user_query}")
+def search_book(user_query: str, db: Session = Depends(get_db)):
     query = db.query(models.Book).all()
     searchObj = SemanticSearch(query)
-    results = searchObj.search_title(title)
+    results = searchObj.search(user_query)
     return results
 
 # Filter books based on Category or prices
@@ -88,7 +88,7 @@ def filter_book(title: Optional[str] = Query(None), category: Optional[str] = Qu
     if title:
         query = query.filter(models.Book.title == title)
     if category:
-        query = query.filter(models.Book.title == category)
+        query = query.filter(models.Book.category == category)
     if author:
         query = query.filter(models.Book.author == author)
     if min_price:

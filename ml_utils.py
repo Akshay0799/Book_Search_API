@@ -17,9 +17,9 @@ class SemanticSearch:
         # with open('meme-embeddings.pkl', "wb") as fOut:
         #     pickle.dump(reduced_embeddings, fOut)
     
-    def search_title(self, bookTitle: str):
+    def search(self, userQuery: str):
         try:
-            book_embedding = self.model.encode([bookTitle])
+            book_embedding = self.model.encode([userQuery])
 
             # self.bookTitles.remove(bookTitle)
 
